@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <header>
+            Corp
+        </header>
+        <main>
+            TDD
+            API!
+            Single player - winning! - Client side
+            Add Memos
+            Add Politics
+            Add Certs
+            Multi player hotseat
+            Save game server side
+            Record play history
+            Multi player online
+            Multi player with ai
+            Resume saved games
+            private games
+            Invite url
+            Stats
+            Disconnect ai take over
+            Chat?
+        </main>
+        <footer>
+            <address>
+                Written by ccarrster@gmail.com Chris Carr
+            </address>
+        </footer>
+    </body>
+    <script>
+
+        function shuffleArray(array) { 
+            for (var i = array.length - 1; i > 0; i--) { 
+  
+                // Generate random number  
+                var j = Math.floor(Math.random() * (i + 1)); 
+  
+                var temp = array[i]; 
+                array[i] = array[j]; 
+                array[j] = temp; 
+            } 
+  
+            return array; 
+        } 
+
+        class Office{
+            constructor() {
+                this.projects = [];
+                this.politics = []; //A subset of all
+                this.employeeWorking = null;
+                this.employees = [];//A second referance
+                this.rooms = [];
+                for(let row = 0; row < 5; row++){
+                    for(let col = 0; col < 5; col++){
+                        let review = false;
+                        let boss = null;
+                        if(row == 0 && col == 0){
+                            review = true;
+                        }
+                        if(row == 4 && col == 0){
+                            boss = 'red';
+                        }
+                        if(row == 0 && col == 4){
+                            boss = 'blue';
+                        }
+                        if(row == 4 && col == 4){
+                            boss = 'green';
+                        }
+                        this.rooms.push(new Room(col, row, boss, review));
+                    }
+                }
+            }
+            //Return a shuffled list of projects
+            setupProjects(){
+                let projects = [];
+                let value = 0;
+                for(let i = 0; i < 6; i++){
+                    projects.push(new Project(value));
+                }
+                value += 1;
+                for(let i = 0; i < 10; i++){
+                    projects.push(new Project(value));
+                }
+                value += 1;
+                for(let i = 0; i < 5; i++){
+                    projects.push(new Project(value));
+                }
+                for(let i = 0; i < 4; i++){
+                    projects.push(new Project(value));
+                }
+                return shuffleArray(projects);
+            }
+        }
+        class Employee {
+            constructor(color) {
+                this.influence = 0;
+                this.projects = [];
+                this.politics = [];
+                this.note = true;
+                this.color = color;
+                this.workhours = 3;
+                this.projectOnly = 0;
+                this.reasearchOnly = 0;
+                this.moveOnly = 0;
+                this.usingPolitics = [];
+                this.spentProject = 0;
+                this.spentPolitics = 0;
+                this.spentMove = 0;
+                this.visitedRedBoss = false;
+                this.visitedBlueBoss = false;
+                this.visitedGreenBoss = false;
+                this.certs = [];
+            }
+        }
+        class Cert{
+            constructor(color, type) {
+                this.color = color;
+                this.used = false;
+                this.type = type;
+            }
+        }
+        class Project {
+            constructor(value) {
+                //Memos would be a direction "top or bottomright, they would be placed on both projects"
+                this.memos = [];
+                this.value = value;
+                this.topleft = false;
+                this.top = false;
+                this.topright = false;
+                if(value == 0){ 
+                    this.left = true;
+                    this.bottomleft = true;
+                    this.bottom = true;
+                    this.bottomright = true;
+                    this.right = true;
+                } else if(value == 1) {
+                    this.left = false;
+                    this.bottomleft = true;
+                    this.bottom = true;
+                    this.bottomright = true;
+                    this.right = false;
+                } else if(value == 2) {
+                    this.left = true;
+                    this.bottomleft = true;
+                    this.bottom = true;
+                    this.bottomright = false;
+                    this.right = false;
+                } else if(value == 3) {
+                    this.left = false;
+                    this.bottomleft = true;
+                    this.bottom = true;
+                    this.bottomright = false;
+                    this.right = false;
+                }
+            }
+        }
+        class Politics{
+
+        }
+        class Room{
+            constructor(x, y, boss, review) {
+                this.x = x;
+                this.y = y;
+                this.project = null;
+                this.employees = [];
+                this.boss = boss;
+                this.review = review;
+            }
+        }
+    </script>
+</html>
