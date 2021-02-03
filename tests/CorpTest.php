@@ -77,4 +77,63 @@ final class CorpTest extends TestCase
         $workingEmployee = $corp->getWorkingEmployee();
         $this->assertEquals(3, $workingEmployee->getWorkhours());
     }
+
+    public function testWorkhoursSpending1(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(3, $workingEmployee->getWorkhours());
+        $workingEmployee->spendHours("place", 1);
+        $this->assertEquals(2, $workingEmployee->getWorkhours());
+    }
+
+    public function testWorkhoursSpending2(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(3, $workingEmployee->getWorkhours());
+        $workingEmployee->spendHours("place", 2);
+        $this->assertEquals(1, $workingEmployee->getWorkhours());
+    }
+
+    public function testWorkhoursSpending3(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(3, $workingEmployee->getWorkhours());
+        $workingEmployee->spendHours("place", 3);
+        $this->assertEquals(0, $workingEmployee->getWorkhours());
+    }
+
+    public function testWorkhoursSpendingTooMany(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(3, $workingEmployee->getWorkhours());
+        $this->expectException(\Exception::class);
+        $workingEmployee->spendHours("place", 4);
+    }
+
+    public function testWorkhoursSpent1(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(3, $workingEmployee->getWorkhours());
+        $workingEmployee->spendHours("place", 1);
+        $this->assertEquals(1, $workingEmployee->getSpentHours("place"));
+    }
+
+    public function testWorkhoursSpent(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(3, $workingEmployee->getWorkhours());
+        $this->assertEquals(0, $workingEmployee->getSpentHours("place"));
+    }
+
+    /*
+    $workingEmployee->spendHours("move", 1);
+        $workingEmployee->spendHours("research", 1);
+        $workingEmployee->spendHours("memo", 1);
+        */
 }
