@@ -131,9 +131,158 @@ final class CorpTest extends TestCase
         $this->assertEquals(0, $workingEmployee->getSpentHours("place"));
     }
 
-    /*
-    $workingEmployee->spendHours("move", 1);
-        $workingEmployee->spendHours("research", 1);
+    public function testWorkhoursSpending3TurnReset(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(3, $workingEmployee->getWorkhours());
+        $workingEmployee->spendHours("place", 3);
+        $this->assertEquals(0, $workingEmployee->getWorkhours());
+        $corp->nextTurn();
+        $this->assertEquals(3, $workingEmployee->getWorkhours());
+    }
+
+    public function testWorkhoursSpentPlace(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(3, $workingEmployee->getWorkhours());
+        $workingEmployee->spendHours("place", 3);
+        $this->assertEquals(3, $workingEmployee->getSpentHours("place"));
+    }
+
+    public function testWorkhoursSpentMove(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(3, $workingEmployee->getWorkhours());
+        $this->assertEquals(0, $workingEmployee->getSpentHours("move"));
+    }
+
+    public function testWorkhoursSpentMove3(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(3, $workingEmployee->getWorkhours());
+        $workingEmployee->spendHours("move", 3);
+        $this->assertEquals(3, $workingEmployee->getSpentHours("move"));
+    }
+
+    public function testWorkhoursSpentResearch(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(3, $workingEmployee->getWorkhours());
+        $this->assertEquals(0, $workingEmployee->getSpentHours("research"));
+    }
+
+    public function testWorkhoursSpentResearch3(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(3, $workingEmployee->getWorkhours());
+        $workingEmployee->spendHours("research", 3);
+        $this->assertEquals(3, $workingEmployee->getSpentHours("research"));
+    }
+
+    public function testWorkhoursSpentMemo(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(3, $workingEmployee->getWorkhours());
+        $this->assertEquals(0, $workingEmployee->getSpentHours("memo"));
+    }
+
+    public function testWorkhoursSpentMemo1(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(3, $workingEmployee->getWorkhours());
+        $workingEmployee->setMemo(false);
         $workingEmployee->spendHours("memo", 1);
-        */
+        $this->assertEquals(1, $workingEmployee->getSpentHours("memo"));
+    }
+
+    public function testWorkhoursSpentMix(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(3, $workingEmployee->getWorkhours());
+        $workingEmployee->spendHours("research", 2);
+        $workingEmployee->spendHours("move", 1);
+        $this->assertEquals(2, $workingEmployee->getSpentHours("research"));
+        $this->assertEquals(1, $workingEmployee->getSpentHours("move"));
+    }
+
+    public function testWorkhoursSpentMemoReset(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(3, $workingEmployee->getWorkhours());
+        $workingEmployee->setMemo(false);
+        $workingEmployee->spendHours("memo", 1);
+        $this->assertEquals(1, $workingEmployee->getSpentHours("memo"));
+        $corp->nextTurn();
+        $this->assertEquals(0, $workingEmployee->getSpentHours("memo"));
+    }
+
+    public function testWorkhoursSpentMoveReset(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(3, $workingEmployee->getWorkhours());
+        $workingEmployee->spendHours("move", 1);
+        $this->assertEquals(1, $workingEmployee->getSpentHours("move"));
+        $corp->nextTurn();
+        $this->assertEquals(0, $workingEmployee->getSpentHours("move"));
+    }
+
+    public function testWorkhoursSpentPlaceReset(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(3, $workingEmployee->getWorkhours());
+        $workingEmployee->spendHours("place", 1);
+        $this->assertEquals(1, $workingEmployee->getSpentHours("place"));
+        $corp->nextTurn();
+        $this->assertEquals(0, $workingEmployee->getSpentHours("place"));
+    }
+
+    public function testWorkhoursSpentResearchReset(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(3, $workingEmployee->getWorkhours());
+        $workingEmployee->spendHours("research", 1);
+        $this->assertEquals(1, $workingEmployee->getSpentHours("research"));
+        $corp->nextTurn();
+        $this->assertEquals(0, $workingEmployee->getSpentHours("research"));
+    }
+
+    public function testHaveMemo(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(true, $workingEmployee->getMemo());
+    }
+
+    public function testSetMemo(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(true, $workingEmployee->getMemo());
+        $workingEmployee->setMemo(false);
+        $this->assertEquals(false, $workingEmployee->getMemo());
+    }
+
+    public function testAlreadyHaveMemo(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(true, $workingEmployee->getMemo());
+        $this->expectException(\Exception::class);
+        $workingEmployee->spendHours("memo", 1);
+    }
+    
+
 }

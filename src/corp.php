@@ -28,6 +28,8 @@ final class Corp
 		return $this->employees[$this->workingEmployee];
 	}
 	public function nextTurn(){
+		$this->employees[$this->workingEmployee]->setWorkingHours(3);
+		$this->employees[$this->workingEmployee]->resetSpentHours();
 		$this->workingEmployee += 1;
 		if($this->workingEmployee == count($this->employees)){
 			$this->workingEmployee = 0;
