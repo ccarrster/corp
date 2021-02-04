@@ -8,6 +8,7 @@ final class Corp
 	private $employees = [];
 	private $employeeColors = ["red", "blue", "yellow", "green"];
 	private $workingEmployee;
+	private $memos = 0;
 	public function __construct(int $employeeCount)
 	{
 		if($employeeCount > 4){
@@ -16,7 +17,7 @@ final class Corp
 			throw new \Exception("1 players minimum");
 		}
 		for($i = 0; $i < $employeeCount; $i++){
-			$this->employees[] = new Employee($this->employeeColors[$i]);
+			$this->employees[] = new Employee($this->employeeColors[$i], $this);
 		}
 		$this->workingEmployee = 0;
 	}
@@ -34,5 +35,12 @@ final class Corp
 		if($this->workingEmployee == count($this->employees)){
 			$this->workingEmployee = 0;
 		}
+	}
+
+	public function memoCount(){
+		return $this->memos;
+	}
+	public function addMemo(){
+		$this->memos += 1;
 	}
 }

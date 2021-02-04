@@ -196,6 +196,7 @@ final class CorpTest extends TestCase
     public function testWorkhoursSpentMemo1(): void
     {
         $corp = new Corp(1);
+        $corp->addMemo();
         $workingEmployee = $corp->getWorkingEmployee();
         $this->assertEquals(3, $workingEmployee->getWorkhours());
         $workingEmployee->setMemo(false);
@@ -217,6 +218,7 @@ final class CorpTest extends TestCase
     public function testWorkhoursSpentMemoReset(): void
     {
         $corp = new Corp(1);
+        $corp->addMemo();
         $workingEmployee = $corp->getWorkingEmployee();
         $this->assertEquals(3, $workingEmployee->getWorkhours());
         $workingEmployee->setMemo(false);
@@ -283,6 +285,27 @@ final class CorpTest extends TestCase
         $this->expectException(\Exception::class);
         $workingEmployee->spendHours("memo", 1);
     }
-    
+
+    public function testCorpHasMemo(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $workingEmployee->setMemo(false);
+        $this->assertEquals(0, $corp->memoCount());
+        $corp->addMemo();
+        $this->assertEquals(1, $corp->memoCount());
+        $workingEmployee->spendHours("memo", 1);
+        $this->assertEquals(1, $workingEmployee->getSpentHours("memo"));
+    }
+
+    public function testCorpHasNoMemo(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $workingEmployee->setMemo(false);
+        $this->assertEquals(0, $corp->memoCount());
+        $this->expectException(\Exception::class);
+        $workingEmployee->spendHours("memo", 1);
+    }
 
 }

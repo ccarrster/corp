@@ -8,12 +8,14 @@ final class Employee
     private $workingHours;
     private $spentHours;
     private $hasMemo;
-	public function __construct(string $color)
+    private $corp;
+	public function __construct(string $color, Corp $corp)
 	{
         $this->color = $color;
         $this->workingHours = 3;
         $this->resetSpentHours();
         $this->hasMemo = true;
+        $this->corp = $corp;
     }
     
     public function getColor() :string
@@ -33,6 +35,9 @@ final class Employee
         if($task == 'memo'){
             if($this->hasMemo == true){
                 throw new \Exception('Can only have one memo');
+            }
+            if($this->corp->memoCount() == 0){
+                throw new \Exception('Corp is out of memos');
             }
         }
 		if($this->workingHours >= $hours){
