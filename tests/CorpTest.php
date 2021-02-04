@@ -308,4 +308,53 @@ final class CorpTest extends TestCase
         $workingEmployee->spendHours("memo", 1);
     }
 
+    public function testCorpProjects(): void
+    {
+        $corp = new Corp(1);
+        $this->assertEquals(23, $corp->getProjectCount());
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(2, $workingEmployee->getProjectCount());
+    }
+
+    public function testCorpProjects2(): void
+    {
+        $corp = new Corp(2);
+        $this->assertEquals(21, $corp->getProjectCount());
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(2, $workingEmployee->getProjectCount());
+        $corp->nextTurn();
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(2, $workingEmployee->getProjectCount());
+    }
+
+    public function testCorpProjects3(): void
+    {
+        $corp = new Corp(3);
+        $this->assertEquals(19, $corp->getProjectCount());
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(2, $workingEmployee->getProjectCount());
+        $corp->nextTurn();
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(2, $workingEmployee->getProjectCount());
+        $corp->nextTurn();
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(2, $workingEmployee->getProjectCount());
+    }
+
+    public function testCorpProjects4(): void
+    {
+        $corp = new Corp(4);
+        $this->assertEquals(17, $corp->getProjectCount());
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(2, $workingEmployee->getProjectCount());
+        $corp->nextTurn();
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(2, $workingEmployee->getProjectCount());
+        $corp->nextTurn();
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(2, $workingEmployee->getProjectCount());
+        $corp->nextTurn();
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertEquals(2, $workingEmployee->getProjectCount());
+    }
 }

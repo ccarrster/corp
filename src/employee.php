@@ -63,4 +63,7 @@ final class Employee
     public function setMemo(bool $memo){
         $this->hasMemo = $memo;
     }
+    public function getProjectCount(){
+        return 2;
+    }
 }
