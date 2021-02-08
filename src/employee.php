@@ -9,6 +9,8 @@ final class Employee
     private $spentHours;
     private $hasMemo;
     private $corp;
+    private $visitedeBosses;
+    private $projects;
 	public function __construct(string $color, Corp $corp)
 	{
         $this->color = $color;
@@ -16,6 +18,8 @@ final class Employee
         $this->resetSpentHours();
         $this->hasMemo = true;
         $this->corp = $corp;
+        $this->visitedeBosses = ['red' => false, 'blue' => false, 'green' => false];
+        $this->projects = [];
     }
     
     public function getColor() :string
@@ -65,5 +69,14 @@ final class Employee
     }
     public function getProjectCount(){
         return 2;
+    }
+    public function getVisitedBoss(string $color){
+        return $this->visitedeBosses[$color];
+    }
+    public function setVisitedBoss(string $color){
+        $this->visitedeBosses[$color] = true;
+    }
+    public function getProjects(){
+        return $this->projects;
     }
 }

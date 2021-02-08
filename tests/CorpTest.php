@@ -357,4 +357,56 @@ final class CorpTest extends TestCase
         $workingEmployee = $corp->getWorkingEmployee();
         $this->assertEquals(2, $workingEmployee->getProjectCount());
     }
+
+    public function testBossDefault(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertFalse($workingEmployee->getVisitedBoss('red'));
+    }
+
+    public function testBossSet(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertFalse($workingEmployee->getVisitedBoss('red'));
+        $workingEmployee->setVisitedBoss('red');
+        $this->assertTrue($workingEmployee->getVisitedBoss('red'));
+    }
+
+    public function testBossSetAll(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertFalse($workingEmployee->getVisitedBoss('red'));
+        $this->assertFalse($workingEmployee->getVisitedBoss('blue'));
+        $this->assertFalse($workingEmployee->getVisitedBoss('green'));
+        $workingEmployee->setVisitedBoss('red');
+        $this->assertTrue($workingEmployee->getVisitedBoss('red'));
+        $this->assertFalse($workingEmployee->getVisitedBoss('blue'));
+        $this->assertFalse($workingEmployee->getVisitedBoss('green'));
+    }
+
+    public function testBossSetAllVisit(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $this->assertFalse($workingEmployee->getVisitedBoss('red'));
+        $this->assertFalse($workingEmployee->getVisitedBoss('blue'));
+        $this->assertFalse($workingEmployee->getVisitedBoss('green'));
+        $workingEmployee->setVisitedBoss('red');
+        $workingEmployee->setVisitedBoss('blue');
+        $workingEmployee->setVisitedBoss('green');
+        $this->assertTrue($workingEmployee->getVisitedBoss('red'));
+        $this->assertTrue($workingEmployee->getVisitedBoss('blue'));
+        $this->assertTrue($workingEmployee->getVisitedBoss('green'));
+    }
+
+    public function testGetProjectCards(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $projects = $workingEmployee->getProjects();
+        $this->assertTrue(is_array($projects));
+    }
 }
