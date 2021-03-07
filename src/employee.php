@@ -79,4 +79,7 @@ final class Employee
     public function getProjects(){
         return $this->projects;
     }
+    public function addProject($project){
+        $this->projects[] = $project;
+    }
 }

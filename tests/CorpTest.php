@@ -3,6 +3,7 @@ namespace corp;
 
 use PHPUnit\Framework\TestCase;
 use corp\Corp;
+use corp\Project;
 
 final class CorpTest extends TestCase
 {
@@ -409,4 +410,127 @@ final class CorpTest extends TestCase
         $projects = $workingEmployee->getProjects();
         $this->assertTrue(is_array($projects));
     }
+    
+    public function testGetProjectCardCount(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $projects = $workingEmployee->getProjects();
+        $this->assertEquals(2, count($projects));
+    }
+
+    public function testGetProjectCardValue(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $projects = $workingEmployee->getProjects();
+        $this->assertTrue($projects[0]->getValue() >= 0 && $projects[0]->getValue() <= 3);
+    }
+
+    public function testGetProjectValue(): void
+    {
+        $project = new Project(0);
+        $this->assertEquals(0, $project->getValue());
+        $project = new Project(1);
+        $this->assertEquals(1, $project->getValue());
+        $project = new Project(2);
+        $this->assertEquals(2, $project->getValue());
+        $project = new Project(3);
+        $this->assertEquals(3, $project->getValue());
+    }
+
+    public function testGetProjectSidesValue0(): void
+    {
+        $project = new Project(0);
+        $this->assertEquals(true, $project->hasNote(-1, 0));
+        $this->assertEquals(true, $project->hasNote(-1, -1));
+        $this->assertEquals(true, $project->hasNote(0, -1));
+        $this->assertEquals(true, $project->hasNote(1, -1));
+        $this->assertEquals(true, $project->hasNote(1, 0));
+        $this->assertEquals(false, $project->hasNote(1, 1));
+        $this->assertEquals(false, $project->hasNote(0, 1));
+        $this->assertEquals(false, $project->hasNote(-1, 1));
+    }
+
+    public function testGetProjectSidesValue1(): void
+    {
+        $project = new Project(1);
+        $this->assertEquals(false, $project->hasNote(-1, 0));
+        $this->assertEquals(true, $project->hasNote(-1, -1));
+        $this->assertEquals(true, $project->hasNote(0, -1));
+        $this->assertEquals(true, $project->hasNote(1, -1));
+        $this->assertEquals(false, $project->hasNote(1, 0));
+        $this->assertEquals(false, $project->hasNote(1, 1));
+        $this->assertEquals(false, $project->hasNote(0, 1));
+        $this->assertEquals(false, $project->hasNote(-1, 1));
+    }
+
+    public function testGetProjectSidesValue2(): void
+    {
+        $project = new Project(2);
+        $this->assertEquals(true, $project->hasNote(-1, 0));
+        $this->assertEquals(true, $project->hasNote(-1, -1));
+        $this->assertEquals(true, $project->hasNote(0, -1));
+        $this->assertEquals(false, $project->hasNote(1, -1));
+        $this->assertEquals(false, $project->hasNote(1, 0));
+        $this->assertEquals(false, $project->hasNote(1, 1));
+        $this->assertEquals(false, $project->hasNote(0, 1));
+        $this->assertEquals(false, $project->hasNote(-1, 1));
+    }
+
+    public function testGetProjectSidesValue3(): void
+    {
+        $project = new Project(3);
+        $this->assertEquals(false, $project->hasNote(-1, 0));
+        $this->assertEquals(true, $project->hasNote(-1, -1));
+        $this->assertEquals(true, $project->hasNote(0, -1));
+        $this->assertEquals(false, $project->hasNote(1, -1));
+        $this->assertEquals(false, $project->hasNote(1, 0));
+        $this->assertEquals(false, $project->hasNote(1, 1));
+        $this->assertEquals(false, $project->hasNote(0, 1));
+        $this->assertEquals(false, $project->hasNote(-1, 1));
+    }
+
+    public function testGetStartingProjects(): void
+    {
+        $corp = new Corp(1);
+        $projects = $corp->getStartingProjects();
+        $this->assertEquals(25, count($projects));
+    }
+
+    public function testGetStartingProjectsCount(): void
+    {
+        $corp = new Corp(1);
+        $projects = $corp->getStartingProjects();
+        $counts = [];
+        $counts[0] = 0;
+        $counts[1] = 0;
+        $counts[2] = 0;
+        $counts[3] = 0;
+        foreach($projects as $project){
+            $counts[$project->getValue()] += 1;
+        }
+        $this->assertEquals(6, $counts[0]);
+        $this->assertEquals(10, $counts[1]);
+        $this->assertEquals(5, $counts[2]);
+        $this->assertEquals(4, $counts[3]);
+    }
+
+    public function testGetOffice(): void
+    {
+        $corp = new Corp(1);
+        $office = $corp->getOffice();
+        $project = $office[0][0];
+        $this->assertTrue($project != null);
+        $project = $office[1][0];
+        $this->assertTrue($project == null);
+        $project = $office[4][0];
+        $this->assertTrue($project != null);
+        $project = $office[4][4];
+        $this->assertTrue($project != null);
+        $project = $office[0][4];
+        $this->assertTrue($project != null);
+    }
 }
+
+
