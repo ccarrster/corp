@@ -491,6 +491,19 @@ final class CorpTest extends TestCase
         $this->assertEquals(false, $project->hasNote(-1, 1));
     }
 
+    public function testGetProjectSidesValueMinus(): void
+    {
+        $project = new Project(-1);
+        $this->assertEquals(true, $project->hasNote(-1, 0));
+        $this->assertEquals(true, $project->hasNote(-1, -1));
+        $this->assertEquals(true, $project->hasNote(0, -1));
+        $this->assertEquals(true, $project->hasNote(1, -1));
+        $this->assertEquals(true, $project->hasNote(1, 0));
+        $this->assertEquals(true, $project->hasNote(1, 1));
+        $this->assertEquals(true, $project->hasNote(0, 1));
+        $this->assertEquals(true, $project->hasNote(-1, 1));
+    }
+
     public function testGetStartingProjects(): void
     {
         $corp = new Corp(1);
@@ -522,14 +535,72 @@ final class CorpTest extends TestCase
         $office = $corp->getOffice();
         $project = $office[0][0];
         $this->assertTrue($project != null);
+        $this->assertEquals("review", $project->getType());
         $project = $office[1][0];
         $this->assertTrue($project == null);
         $project = $office[4][0];
         $this->assertTrue($project != null);
+        $this->assertEquals("red", $project->getType());
         $project = $office[4][4];
         $this->assertTrue($project != null);
+        $this->assertEquals("green", $project->getType());
         $project = $office[0][4];
         $this->assertTrue($project != null);
+        $this->assertEquals("blue", $project->getType());
+    }
+
+    public function testPlaceProjectCard(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $projects = $workingEmployee->getProjects();
+        $project = $projects[0];
+        $office = $corp->getOffice();
+        $this->assertTrue($office[1][1] == null);
+        $corp->placeProject(1, 1, $project);
+        $office = $corp->getOffice();
+        $this->assertTrue($office[1][1] != null);
+    }
+
+    public function testGetProjectSidesRotate(): void
+    {
+        $project = new Project(3);
+        $project->setRotation(0);
+        $this->assertEquals(false, $project->hasNote(-1, 0));
+        $this->assertEquals(true, $project->hasNote(-1, -1));
+        $this->assertEquals(true, $project->hasNote(0, -1));
+        $this->assertEquals(false, $project->hasNote(1, -1));
+        $this->assertEquals(false, $project->hasNote(1, 0));
+        $this->assertEquals(false, $project->hasNote(1, 1));
+        $this->assertEquals(false, $project->hasNote(0, 1));
+        $this->assertEquals(false, $project->hasNote(-1, 1));
+        $project->setRotation(1);
+        $this->assertEquals(false, $project->hasNote(-1, 0));
+        $this->assertEquals(false, $project->hasNote(-1, -1));
+        $this->assertEquals(false, $project->hasNote(0, -1));
+        $this->assertEquals(true, $project->hasNote(1, -1));
+        $this->assertEquals(true, $project->hasNote(1, 0));
+        $this->assertEquals(false, $project->hasNote(1, 1));
+        $this->assertEquals(false, $project->hasNote(0, 1));
+        $this->assertEquals(false, $project->hasNote(-1, 1));
+        $project->setRotation(2);
+        $this->assertEquals(false, $project->hasNote(-1, 0));
+        $this->assertEquals(false, $project->hasNote(-1, -1));
+        $this->assertEquals(false, $project->hasNote(0, -1));
+        $this->assertEquals(false, $project->hasNote(1, -1));
+        $this->assertEquals(false, $project->hasNote(1, 0));
+        $this->assertEquals(true, $project->hasNote(1, 1));
+        $this->assertEquals(true, $project->hasNote(0, 1));
+        $this->assertEquals(false, $project->hasNote(-1, 1));
+        $project->setRotation(3);
+        $this->assertEquals(true, $project->hasNote(-1, 0));
+        $this->assertEquals(false, $project->hasNote(-1, -1));
+        $this->assertEquals(false, $project->hasNote(0, -1));
+        $this->assertEquals(false, $project->hasNote(1, -1));
+        $this->assertEquals(false, $project->hasNote(1, 0));
+        $this->assertEquals(false, $project->hasNote(1, 1));
+        $this->assertEquals(false, $project->hasNote(0, 1));
+        $this->assertEquals(true, $project->hasNote(-1, 1));
     }
 }
 

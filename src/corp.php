@@ -28,10 +28,10 @@ final class Corp
 				$this->office[$i][$j] = null;
 			}
 		}
-		$this->office[0][0] = new Project(-1);
-		$this->office[4][0] = new Project(-1);
-		$this->office[4][4] = new Project(-1);
-		$this->office[0][4] = new Project(-1);
+		$this->office[0][0] = new Project(-1, "review");
+		$this->office[4][0] = new Project(-1, "red");
+		$this->office[4][4] = new Project(-1, "green");
+		$this->office[0][4] = new Project(-1, "blue");
 		
 
 		for($i = 0; $i < $employeeCount; $i++){
@@ -86,5 +86,8 @@ final class Corp
 	}
 	public function getOffice(){
 		return $this->office;
+	}
+	public function placeProject($x, $y, $project){
+		$this->office[$x][$y] = $project;
 	}
 }
