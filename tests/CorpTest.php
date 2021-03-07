@@ -560,6 +560,7 @@ final class CorpTest extends TestCase
         $corp->placeProject(1, 1, $project);
         $office = $corp->getOffice();
         $this->assertTrue($office[1][1] != null);
+        //$corp->drawOffice();
     }
 
     public function testGetProjectSidesRotate(): void
@@ -602,6 +603,36 @@ final class CorpTest extends TestCase
         $this->assertEquals(false, $project->hasNote(0, 1));
         $this->assertEquals(true, $project->hasNote(-1, 1));
     }
+
+    public function testMove(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $projects = $workingEmployee->getProjects();
+        $project = $projects[0];
+        $office = $corp->getOffice();
+        $corp->placeProject(1, 1, $project);
+        $office = $corp->getOffice();
+        $this->assertTrue($corp->canMove(0, 0, 1, 1));
+        $this->assertTrue($corp->canMove(1, 1, 0, 0));
+        $this->assertFalse($corp->canMove(0, 0, 0, 1));
+        $this->assertFalse($corp->canMove(0, 0, 1, 0));
+    }
+    public function testMoveRotate(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $projects = $workingEmployee->getProjects();
+        $project = $projects[0];
+        $office = $corp->getOffice();
+        $corp->placeProject(1, 0, $project);
+        $project->setRotation(3);
+        $office = $corp->getOffice();
+        $this->assertTrue($corp->canMove(0, 0, 1, 0));
+        //$corp->drawOffice();
+    }
+
+    
 }
 
 

@@ -90,4 +90,104 @@ final class Corp
 	public function placeProject($x, $y, $project){
 		$this->office[$x][$y] = $project;
 	}
+
+	public function drawOffice(){
+		echo("\n");
+		$officeString = "";
+		for($i = 0; $i < 5; $i++){
+			$row1 = "";
+			$row2 = "";
+			$row3 = "";
+			for($j = 0; $j < 5; $j++){
+				if($this->office[$j][$i] == null){
+					$row1 .= "XXX";
+					$row2 .= "XXX";
+					$row3 .= "XXX";
+				} else {
+					$row1 .= ($this->office[$j][$i]->hasNote(-1,1)?"1":"0");
+					$row1 .= ($this->office[$j][$i]->hasNote(0,1)?"1":"0");
+					$row1 .= ($this->office[$j][$i]->hasNote(1,1)?"1":"0");
+					$row2 .= ($this->office[$j][$i]->hasNote(-1,0)?"1":"0");
+					$row2 .= ($this->office[$j][$i]->getValue() == -1 ? "X": $this->office[$j][$i]->getValue());
+					$row2 .= ($this->office[$j][$i]->hasNote(1,0)?"1":"0");
+					$row3 .= ($this->office[$j][$i]->hasNote(-1,-1)?"1":"0");
+					$row3 .= ($this->office[$j][$i]->hasNote(0,-1)?"1":"0");
+					$row3 .= ($this->office[$j][$i]->hasNote(1,-1)?"1":"0");
+				}
+			}
+			$officeString = $row1."\n".$row2."\n".$row3."\n".$officeString;
+		}
+		echo($officeString);
+	}
+
+	public function canMove($originX, $originY, $destinationX, $destinationY){
+		$origin = $this->office[$originX][$originY];
+		$destination = $this->office[$destinationX][$destinationY];
+		if($origin == null){
+			return false;
+		}
+		if($destination == null){
+			return false;
+		}
+		if($originX == $destinationX){
+			if($originY == $destinationY + 1){
+				if($origin->hasNote(0, -1) && $destination->hasNote(0, 1)){
+					return true;
+				} else {
+					return false;
+				}
+			} elseif($originY == $destinationY - 1){
+				if($origin->hasNote(0, 1) && $destination->hasNote(0, -1)){
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
+		if($originY == $destinationY){
+			if($originX == $destinationX + 1){
+				if($origin->hasNote(-1, 0) && $destination->hasNote(1, 0)){
+					return true;
+				} else {
+					return false;
+				}
+			} elseif($originX == $destinationX - 1){
+				if($origin->hasNote(1, 0) && $destination->hasNote(-1, 0)){
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
+		if($originX == $destinationX + 1 && $originY == $destinationY + 1){
+			if($origin->hasNote(-1, -1) && $destination->hasNote(1, 1)){
+				return true;
+			} else {
+				return false;
+			}
+		}
+		if($originX == $destinationX - 1 && $originY == $destinationY - 1){
+			if($origin->hasNote(1, 1) && $destination->hasNote(-1, -1)){
+				return true;
+			} else {
+				return false;
+			}
+		}
+		if($originX == $destinationX + 1 && $originY == $destinationY - 1){
+			if($origin->hasNote(-1, 1) && $destination->hasNote(1, -1)){
+				return true;
+			} else {
+				return false;
+			}
+		}
+		if($originX == $destinationX - 1 && $originY == $destinationY + 1){
+			if($origin->hasNote(1, -1) && $destination->hasNote(-1, 1)){
+				return true;
+			} else {
+				return false;
+			}
+		}
+		//Out of range etc
+		return false;
+	}
 }
