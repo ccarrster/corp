@@ -11,6 +11,8 @@ final class Employee
     private $corp;
     private $visitedeBosses;
     private $projects;
+    private $x;
+    private $y;
 	public function __construct(string $color, Corp $corp)
 	{
         $this->color = $color;
@@ -20,6 +22,8 @@ final class Employee
         $this->corp = $corp;
         $this->visitedeBosses = ['red' => false, 'blue' => false, 'green' => false];
         $this->projects = [];
+        $this->x = 0;
+        $this->y = 0;
     }
     
     public function getColor() :string
@@ -81,5 +85,12 @@ final class Employee
     }
     public function addProject($project){
         $this->projects[] = $project;
+    }
+    public function getLocation(){
+        return ['x' => $this->x, 'y' => $this->y];
+    }
+    public function setLocation($x, $y){
+        $this->x = $x;
+        $this->y = $y;
     }
 }

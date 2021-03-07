@@ -632,6 +632,31 @@ final class CorpTest extends TestCase
         //$corp->drawOffice();
     }
 
+    public function testEmployeeStart(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $location = $workingEmployee->getLocation();
+        $this->assertEquals(0, $location['x']);
+        $this->assertEquals(0, $location['y']);
+    }
+    public function testMoveEmployee(): void
+    {
+        $corp = new Corp(1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $projects = $workingEmployee->getProjects();
+        $project = $projects[0];
+        $office = $corp->getOffice();
+        $corp->placeProject(1, 1, $project);
+        $office = $corp->getOffice();
+        $color = $workingEmployee->getColor();
+        $corp->move($color, 1, 1);
+        $workingEmployee = $corp->getWorkingEmployee();
+        $location = $workingEmployee->getLocation();
+        $this->assertEquals(1, $location['x']);
+        $this->assertEquals(1, $location['y']);     
+    }
+
     
 }
 

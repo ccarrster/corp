@@ -190,4 +190,22 @@ final class Corp
 		//Out of range etc
 		return false;
 	}
+
+	public function getEmployee($color){
+		foreach($this->employees as $employee){
+			if($employee->getColor() == $color){
+				return $employee;
+			}
+		}
+	}
+
+	public function move($color, $x, $y){
+		$employee = $this->getEmployee($color);
+		$currentLocation = $employee->getLocation();
+		if($this->canMove($currentLocation['x'], $currentLocation['y'], $x, $y)){
+			$employee->setLocation($x, $y);
+			return true;
+		}
+		return false;
+	}
 }
